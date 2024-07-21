@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <script>
+        function convertBase64ToImage(base64String) {
+            // Create an image element and set its source to the Base64 string
+            var img = new Image();
+            img.src = 'data:image/jpeg;base64,' + base64String; // Adjust MIME type as needed
+            return img;
+        }
+
+        function updateImageSources() {
+            // Get all elements with the class 'photo-url'
+            var photoUrls = document.querySelectorAll('.photo-url');
+
+            photoUrls.forEach(function(urlElement) {
+                var base64String = urlElement.textContent.trim();
+                if (base64String) {
+                    var img = convertBase64ToImage(base64String);
+                    urlElement.innerHTML = ''; // Clear existing content
+                    urlElement.appendChild(img); // Add the image element
+                }
+            });
+        }
+
+        // Run the updateImageSources function after the document loads
+        window.onload = updateImageSources;
+    </script>
+</head>
+<body>
+<h1>User List</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Age</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Photo URL</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.username}">Username</td>
+        <td th:text="${user.age}">Age</td>
+        <td th:text="${user.createdAt}">Created At</td>
+        <td th:text="${user.updatedAt}">Updated At</td>
+        <td class="photo-url" th:text="${user.photourl}">Photo URL</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
